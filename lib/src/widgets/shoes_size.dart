@@ -16,12 +16,14 @@ class ShoesSizePreview extends StatelessWidget {
           _ShadowShoe(),
 
           //Size Shoe
+          _ShoeSize(),
         ],
       ),
     );
   }
 }
 
+// ======ShadowShoe======
 class _ShadowShoe extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -29,7 +31,11 @@ class _ShadowShoe extends StatelessWidget {
       padding: EdgeInsets.all(50),
       child: Stack(
         children: [
-          Positioned(bottom: 20, right: 0, child: _Shadow()),
+          Positioned(
+            bottom: 20,
+            right: 0,
+            child: _Shadow(),
+          ),
           Image(
             image: AssetImage('assets/img/azul.png'),
           ),
@@ -57,3 +63,61 @@ class _Shadow extends StatelessWidget {
     );
   }
 }
+//=========================================
+
+//====== _ShoeSize======
+
+class _ShoeSize extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 10),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          _ShoeSizeBox(7),
+          _ShoeSizeBox(7.5),
+          _ShoeSizeBox(8),
+          _ShoeSizeBox(8.5),
+          _ShoeSizeBox(9),
+          _ShoeSizeBox(9.5)
+        ],
+      ),
+    );
+  }
+}
+
+class _ShoeSizeBox extends StatelessWidget {
+  final double size;
+
+  const _ShoeSizeBox(this.size);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 45,
+      height: 45,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.all(
+          Radius.circular(8),
+        ),
+        /*   boxShadow: [
+            //  BoxShadow()
+          ] */
+      ),
+      //child
+      child: Center(
+        child: Text(
+          '${size.toString().replaceAll(".0", "")}',
+          style: TextStyle(
+              color: Color(0xffF1A23A),
+              fontSize: 15,
+              fontWeight: FontWeight.bold),
+        ),
+      ),
+    );
+  }
+}
+
+//=========================================
