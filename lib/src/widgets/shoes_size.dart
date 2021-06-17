@@ -98,20 +98,26 @@ class _ShoeSizeBox extends StatelessWidget {
       width: 45,
       height: 45,
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: this.size == 9 ? Colors.orange : Colors.white,
         borderRadius: BorderRadius.all(
           Radius.circular(8),
         ),
-        /*   boxShadow: [
-            //  BoxShadow()
-          ] */
+        boxShadow: [
+          if (this.size == 9)
+            BoxShadow(
+              color: Color(0xffF1A23A),
+              blurRadius: 10,
+              spreadRadius: 2,
+              offset: Offset(0, 5),
+            ),
+        ],
       ),
       //child
       child: Center(
         child: Text(
           '${size.toString().replaceAll(".0", "")}',
           style: TextStyle(
-              color: Color(0xffF1A23A),
+              color: this.size == 9 ? Colors.white : Color(0xffF1A23A),
               fontSize: 15,
               fontWeight: FontWeight.bold),
         ),
