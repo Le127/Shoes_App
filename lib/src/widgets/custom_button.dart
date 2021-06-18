@@ -4,11 +4,13 @@ class Custombutton extends StatelessWidget {
   final String text;
   final double height;
   final double width;
+  final Color color;
 
   const Custombutton({
     required this.text,
     this.height = 30,
     this.width = 120,
+    this.color = Colors.orange,
   });
 
   @override
@@ -19,7 +21,7 @@ class Custombutton extends StatelessWidget {
       height: height,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(100),
-        color: Colors.orange.shade400,
+        color: color,
       ),
       child: Text(
         text,
