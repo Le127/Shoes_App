@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 
 import 'package:shoes_app/src/widgets/custom_widgets.dart';
@@ -11,7 +12,9 @@ class ShoesDescriptionPage extends StatelessWidget {
           //
           Stack(
             children: [
-              ShoesSizePreview(fullScreen: true),
+              //
+              Hero(tag: "shoes-1", child: ShoesSizePreview(fullScreen: true)),
+              //
               Positioned(
                 top: 50,
                 left: 15,
@@ -23,7 +26,9 @@ class ShoesDescriptionPage extends StatelessWidget {
                   focusElevation: 0,
                   hoverElevation: 0,
                   backgroundColor: Colors.transparent,
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
                 ),
               ),
             ],
@@ -48,6 +53,7 @@ class ShoesDescriptionPage extends StatelessWidget {
                     _ColorsAndMore(),
 
                     //LikeCartSettings
+
                     _ButtonsLikeCartSet()
                   ],
                 ),
@@ -69,9 +75,9 @@ class _ButtonsLikeCartSet extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          _Buttons(icon: Icons.favorite, iconColor: Colors.red),
+          _Buttons(icon: Icons.favorite, iconColor: Colors.red.shade400),
           _Buttons(
-              icon: Icons.shopping_cart, iconColor: Colors.orange.shade400),
+              icon: Icons.shopping_cart, iconColor: Colors.orange.shade200),
           _Buttons(icon: Icons.settings, iconColor: Colors.black45),
         ],
       ),
@@ -117,13 +123,10 @@ class _ColorsAndMore extends StatelessWidget {
         Expanded(
           child: Stack(
             children: [
-              Positioned(
-                  left: 75, child: _ButtonColor(color: Color(0xffC6D642))),
-              Positioned(
-                  left: 50, child: _ButtonColor(color: Color(0xffFFAD29))),
-              Positioned(
-                  left: 25, child: _ButtonColor(color: Color(0xff2099F1))),
-              _ButtonColor(color: Color(0xff364F56)),
+              Positioned(left: 75, child: _ButtonColor(Color(0xffC6D642), 4)),
+              Positioned(left: 50, child: _ButtonColor(Color(0xffFFAD29), 3)),
+              Positioned(left: 25, child: _ButtonColor(Color(0xff2099F1), 2)),
+              _ButtonColor(Color(0xff364F56), 1),
             ],
           ),
         ),
@@ -143,17 +146,22 @@ class _ColorsAndMore extends StatelessWidget {
 
 class _ButtonColor extends StatelessWidget {
   final Color color;
+  final int index;
 
-  const _ButtonColor({required this.color});
+  const _ButtonColor(this.color, this.index);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 45,
-      height: 45,
-      decoration: BoxDecoration(
-        color: this.color,
-        shape: BoxShape.circle,
+    return FadeInLeft(
+      delay: Duration(milliseconds: this.index * 100),
+      duration: Duration(milliseconds: 300),
+      child: Container(
+        width: 45,
+        height: 45,
+        decoration: BoxDecoration(
+          color: this.color,
+          shape: BoxShape.circle,
+        ),
       ),
     );
   }
@@ -172,9 +180,13 @@ class _PriceBuyNow extends StatelessWidget {
           Text('\$180.0',
               style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold)),
           Spacer(),
-          Custombutton(
-            text: "Buy Now",
-            width: 100,
+          Bounce(
+            delay: Duration(milliseconds: 1500),
+            from: 10,
+            child: Custombutton(
+              text: "Buy Now",
+              width: 100,
+            ),
           )
         ],
       ),

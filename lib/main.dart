@@ -1,9 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shoes_app/src/models/shoes_model.dart';
 
-import 'package:shoes_app/src/pages/shoes_description_page.dart';
-//import 'package:shoes_app/src/pages/shoes_page_main.dart';
+import 'package:shoes_app/src/pages/shoes_page_main.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  return runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => ShoesModel()),
+      ],
+      child: MyApp(),
+    ),
+  );
+}
 
 class MyApp extends StatelessWidget {
   @override
@@ -11,7 +21,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'ShoesApp',
       debugShowCheckedModeBanner: false,
-      home: ShoesDescriptionPage(),
+      home: ShoesPageMain(),
     );
   }
 }

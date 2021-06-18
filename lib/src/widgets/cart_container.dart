@@ -8,7 +8,7 @@ class CartContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(5),
+      // margin: EdgeInsets.all(5),
       width: double.infinity,
       height: 80,
       decoration: BoxDecoration(

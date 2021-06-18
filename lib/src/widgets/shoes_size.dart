@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shoes_app/src/models/shoes_model.dart';
+import 'package:shoes_app/src/pages/shoes_description_page.dart';
 
 class ShoesSizePreview extends StatelessWidget {
   final bool fullScreen;
@@ -7,33 +10,43 @@ class ShoesSizePreview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(
-        horizontal: (this.fullScreen) ? 5.0 : 30.0,
-        vertical: (this.fullScreen) ? 0 : 5,
-      ),
-      child: Container(
-        height: (this.fullScreen) ? 340 : 420,
-        width: double.infinity,
-        decoration: BoxDecoration(
-          color: Color(0xffFFCF53),
-          borderRadius: (this.fullScreen)
-              ? BorderRadius.only(
-                  bottomLeft: Radius.circular(50),
-                  bottomRight: Radius.circular(50),
-                  topLeft: Radius.circular(15),
-                  topRight: Radius.circular(15),
-                )
-              : BorderRadius.circular(50),
+    return GestureDetector(
+      onTap: () {
+        if (this.fullScreen == false) {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (BuildContext context) => ShoesDescriptionPage()));
+        }
+      },
+      child: Padding(
+        padding: EdgeInsets.symmetric(
+          horizontal: (this.fullScreen) ? 5.0 : 30.0,
+          vertical: (this.fullScreen) ? 0 : 5,
         ),
-        child: Column(
-          children: [
-            //Shadow Shoe
-            _ShadowShoe(),
+        child: Container(
+          height: (this.fullScreen) ? 450 : 420,
+          width: double.infinity,
+          decoration: BoxDecoration(
+            color: Color(0xffFFCF53),
+            borderRadius: (this.fullScreen)
+                ? BorderRadius.only(
+                    bottomLeft: Radius.circular(50),
+                    bottomRight: Radius.circular(50),
+                    topLeft: Radius.circular(15),
+                    topRight: Radius.circular(15),
+                  )
+                : BorderRadius.circular(50),
+          ),
+          child: Column(
+            children: [
+              //Shadow Shoe
+              _ShadowShoe(),
 
-            //Size Shoe
-            if (!this.fullScreen) _ShoeSize(),
-          ],
+              //Size Shoe
+              if (!this.fullScreen) _ShoeSize(),
+            ],
+          ),
         ),
       ),
     );
@@ -111,32 +124,43 @@ class _ShoeSizeBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 45,
-      height: 45,
-      decoration: BoxDecoration(
-        color: this.size == 9 ? Colors.orange : Colors.white,
-        borderRadius: BorderRadius.all(
-          Radius.circular(8),
+    //provider
+    final shoesModel = Provider.of<ShoesModel>(context);
+
+    return GestureDetector(
+      onTap: () {
+        final shoesModel = Provider.of<ShoesModel>(context, listen: false);
+
+        shoesModel.size = this.size;
+      },
+      child: Container(
+        width: 45,
+        height: 45,
+        decoration: BoxDecoration(
+          color: this.size == shoesModel.size ? Colors.orange : Colors.white,
+          borderRadius: BorderRadius.all(
+            Radius.circular(8),
+          ),
+          boxShadow: [
+            if (this.size == shoesModel.size)
+              BoxShadow(
+                color: Color(0xffF1A23A),
+                blurRadius: 10,
+                spreadRadius: 2,
+                offset: Offset(0, 5),
+              ),
+          ],
         ),
-        boxShadow: [
-          if (this.size == 9)
-            BoxShadow(
-              color: Color(0xffF1A23A),
-              blurRadius: 10,
-              spreadRadius: 2,
-              offset: Offset(0, 5),
-            ),
-        ],
-      ),
-      //child
-      child: Center(
-        child: Text(
-          '${size.toString().replaceAll(".0", "")}',
-          style: TextStyle(
-              color: this.size == 9 ? Colors.white : Color(0xffF1A23A),
-              fontSize: 15,
-              fontWeight: FontWeight.bold),
+        child: Center(
+          child: Text(
+            '${size.toString().replaceAll(".0", "")}',
+            style: TextStyle(
+                color: this.size == shoesModel.size
+                    ? Colors.white
+                    : Color(0xffF1A23A),
+                fontSize: 15,
+                fontWeight: FontWeight.bold),
+          ),
         ),
       ),
     );
