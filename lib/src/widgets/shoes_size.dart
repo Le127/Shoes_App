@@ -57,17 +57,21 @@ class ShoesSizePreview extends StatelessWidget {
 class _ShadowShoe extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final shoesModel = Provider.of<ShoesModel>(context);
+
     return Padding(
       padding: EdgeInsets.all(50),
       child: Stack(
         children: [
+          //
           Positioned(
             bottom: 20,
             right: 0,
             child: _Shadow(),
           ),
+          //
           Image(
-            image: AssetImage('assets/img/azul.png'),
+            image: AssetImage(shoesModel.assetImage),
           ),
         ],
       ),

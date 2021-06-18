@@ -1,11 +1,16 @@
-import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:animate_do/animate_do.dart';
 
+import 'package:shoes_app/src/helpers/helpers.dart';
 import 'package:shoes_app/src/widgets/custom_widgets.dart';
+import 'package:shoes_app/src/models/shoes_model.dart';
 
 class ShoesDescriptionPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    cambiarStatusLight();
+
     return Scaffold(
       body: Column(
         children: [
@@ -27,6 +32,7 @@ class ShoesDescriptionPage extends StatelessWidget {
                   hoverElevation: 0,
                   backgroundColor: Colors.transparent,
                   onPressed: () {
+                    cambiarStatusDark();
                     Navigator.pop(context);
                   },
                 ),
@@ -123,10 +129,22 @@ class _ColorsAndMore extends StatelessWidget {
         Expanded(
           child: Stack(
             children: [
-              Positioned(left: 75, child: _ButtonColor(Color(0xffC6D642), 4)),
-              Positioned(left: 50, child: _ButtonColor(Color(0xffFFAD29), 3)),
-              Positioned(left: 25, child: _ButtonColor(Color(0xff2099F1), 2)),
-              _ButtonColor(Color(0xff364F56), 1),
+              Positioned(
+                left: 75,
+                child:
+                    _ButtonColor(Color(0xffC6D642), 4, "assets/img/verde.png"),
+              ),
+              Positioned(
+                left: 50,
+                child: _ButtonColor(
+                    Color(0xffFFAD29), 3, "assets/img/amarillo.png"),
+              ),
+              Positioned(
+                left: 25,
+                child:
+                    _ButtonColor(Color(0xff2099F1), 2, "assets/img/azul.png"),
+              ),
+              _ButtonColor(Color(0xff364F56), 1, "assets/img/negro.png"),
             ],
           ),
         ),
@@ -147,20 +165,28 @@ class _ColorsAndMore extends StatelessWidget {
 class _ButtonColor extends StatelessWidget {
   final Color color;
   final int index;
+  final String assetImage;
 
-  const _ButtonColor(this.color, this.index);
+  const _ButtonColor(this.color, this.index, this.assetImage);
 
   @override
   Widget build(BuildContext context) {
     return FadeInLeft(
       delay: Duration(milliseconds: this.index * 100),
       duration: Duration(milliseconds: 300),
-      child: Container(
-        width: 45,
-        height: 45,
-        decoration: BoxDecoration(
-          color: this.color,
-          shape: BoxShape.circle,
+      child: GestureDetector(
+        onTap: () {
+          final shoesModel = Provider.of<ShoesModel>(context, listen: false);
+
+          shoesModel.assetImage = this.assetImage;
+        },
+        child: Container(
+          width: 45,
+          height: 45,
+          decoration: BoxDecoration(
+            color: this.color,
+            shape: BoxShape.circle,
+          ),
         ),
       ),
     );
